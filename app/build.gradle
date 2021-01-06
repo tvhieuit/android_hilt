@@ -3,6 +3,11 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'kotlin-android-extensions'
+}
+
+androidExtensions {
+    experimental = true
 }
 
 android {
@@ -32,6 +37,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        dataBinding true
+    }
 }
 
 dependencies {
@@ -47,10 +56,15 @@ dependencies {
 
     // Reaction
     implementation("io.reactivex.rxjava3:rxkotlin:3.0.1")
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.6'
+    implementation('com.tbruyelle.rxpermissions2:rxpermissions:0.9.5')
 
     // Dependence injection
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'
+    kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
 
     // Network
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
@@ -60,4 +74,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
 
+    // Glide image loader
+    def glide_version = '4.11.0'
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
 }

@@ -1,6 +1,7 @@
 package com.study.di
 
 import com.google.gson.FieldNamingPolicy
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.study.config.NetworkConfig
 import com.study.network.ApiClient
@@ -29,7 +30,9 @@ object NetworkModule {
     @Provides
     @Singleton
     @IntoSet
-    fun provideLoggingInterceptor(): Interceptor = HttpLoggingInterceptor()
+    fun provideLoggingInterceptor(): Interceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
 
 
     @Provides
@@ -55,18 +58,18 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(httpClient: OkHttpClient, config: NetworkConfig): Retrofit =
+    fun provideGson() = GsonBuilder()
+        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+        .create()
+
+    @Singleton
+    @Provides
+    fun provideRetrofit(httpClient: OkHttpClient, config: NetworkConfig, gson: Gson): Retrofit =
         Retrofit.Builder()
             .baseUrl(config.baseUrl)
             .client(httpClient)
-            .addConverterFactory(
-                GsonConverterFactory.create(
-                    GsonBuilder()
-                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                        .create()
-                )
-            )
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
             .build()
 
     @Provides

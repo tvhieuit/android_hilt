@@ -1,4 +1,4 @@
-package com.study.ui.login
+package com.study.presentation.login
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

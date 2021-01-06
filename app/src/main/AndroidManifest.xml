@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.study">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".BaseApplication"
         android:allowBackup="false"
@@ -11,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Android_hilt">
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name=".presentation.splash.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +22,7 @@
         </activity>
 
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".presentation.login.LoginActivity"
             android:screenOrientation="portrait" />
 
     </application>
